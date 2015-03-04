@@ -2,6 +2,7 @@
 # By Ricardo Rojo
 # 02/02/2015
 # ============
+require 'pry'
 # CONSTANTS and variables
 PLAYER_POSITION_MARKER = "X"
 COMPUTER_POSITION_MARKER = "O"
@@ -50,11 +51,7 @@ def computers_play(board, winning_lines)
 end
 
 def valid_position?(position, board)
-  if position >= 1 && position <= 9 && board[position] == " "
-    return true
-  else
-    return false
-  end
+  position >= 1 && position <= 9 && board[position] == " "
 end
 
 def two_in_a_row(board, winning_lines)
@@ -72,11 +69,17 @@ end
 
 def winner?(board, winning_lines, position_marker)
   winning_lines.each do |winning_play|
-    if board[winning_play[0]] == position_marker && board[winning_play[1]] == position_marker && board[winning_play[2]] == position_marker
+    if winning_combination?(board,winning_play,position_marker)
       return true
     end
   end
   return false
+end
+
+def winning_combination?(board, winnig_play, position_marker)
+  working_array = []
+  winnig_play.each {|position| working_array << board[position]}
+  working_array.select {|position| position == position_marker}.count == 3
 end
 
 # Execution of program
